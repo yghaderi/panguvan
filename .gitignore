@@ -5,4 +5,4 @@
 *.pyo
 
  dist/
-src/panguvan/db/.env.config
+src/panguvan/.env.config
