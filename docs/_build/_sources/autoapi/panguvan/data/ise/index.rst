@@ -17,10 +17,17 @@ Classes
 
 
 
-.. py:class:: ISE(daily_hist_price: bool = True, daily_adj_hist_price: bool = True, intraday_trades: bool = True)
+.. py:class:: ISE(daily_hist_price: bool = True, daily_adj_hist_price: bool = True, intraday_trades: bool = False)
 
 
-   Get Iran Stock Exchange data and update them.
+   Get **Iran Stock Exchange** data and update them by https://github.com/yghaderi/oxtapus.
+
+   :param daily_hist_price: if ``True`` the **daily-hist-price** of all stocks that are listed will be updated. Default: ``True``
+   :type daily_hist_price: bool
+   :param daily_adj_hist_price: if ``True`` the **adjusted-daily-hist-price** of all stocks that are listed will be updated. Default: ``True``
+   :type daily_adj_hist_price: bool
+   :param intraday-trades: if ``True`` the **intraday-trades** of the current day of all stocks that are listed will be updated. Default: ``False``
+   :type intraday-trades: bool
 
    .. py:method:: write_date_table()
 
@@ -28,8 +35,8 @@ Classes
    .. py:method:: write_trbc_tables(trbc_hdf_path: str) -> None
 
       Append The Refinitiv Business Classification data to tables.
-      :param trbc_hdf_path: TRBC.h5 file path. You can download hear: SO_.
-                            .. _SO: https://github.com/yghaderi/panguvan
+      :param trbc_hdf_path: TRBC.h5 file path. You can download this file `here`_.
+                            .. _here: https://github.com/yghaderi/panguvan/blob/master/TRBC.h5
       :type trbc_hdf_path: str
 
 

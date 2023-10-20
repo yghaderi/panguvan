@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>panguvan.data.ise &#8212; panguvan 0.1.3 documentation</title>
+    <title>panguvan.data.ise &#8212; panguvan 0.1.2 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
   <script src="../../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
 
-    <script src="../../../_static/documentation_options.js?v=61571c06"></script>
+    <script src="../../../_static/documentation_options.js?v=969202b3"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -126,7 +126,7 @@
   
   
   
-    <p class="title logo__title">panguvan 0.1.3 documentation</p>
+    <p class="title logo__title">panguvan 0.1.2 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
@@ -257,22 +257,33 @@ document.write(`
 <span class="kn">from</span> <span class="nn">oxtapus.ise</span> <span class="kn">import</span> <span class="n">TSETMC</span>
 <span class="kn">import</span> <span class="nn">polars</span> <span class="k">as</span> <span class="nn">pl</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+
 <span class="kn">from</span> <span class="nn">panguvan.config</span> <span class="kn">import</span> <span class="n">conn_engine</span><span class="p">,</span> <span class="n">conn_uri</span>
-<span class="kn">from</span> <span class="nn">panguvan.utils</span> <span class="kn">import</span> <span class="n">get_last_market_activity_datetime</span><span class="p">,</span> <span class="n">df_date</span>
+<span class="kn">from</span> <span class="nn">panguvan.utils</span> <span class="kn">import</span> <span class="n">df_date</span>
 
 
 <div class="viewcode-block" id="ISE">
 <a class="viewcode-back" href="../../../autoapi/panguvan/data/ise/index.html#panguvan.data.ISE">[docs]</a>
 <span class="k">class</span> <span class="nc">ISE</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Get Iran Stock Exchange data and update them.</span>
+<span class="sd">    Get **Iran Stock Exchange** data and update them by https://github.com/yghaderi/oxtapus.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ---------</span>
+<span class="sd">    daily_hist_price: bool</span>
+<span class="sd">        if ``True`` the **daily-hist-price** of all stocks that are listed will be updated. Default: ``True``</span>
+<span class="sd">    daily_adj_hist_price: bool</span>
+<span class="sd">        if ``True`` the **adjusted-daily-hist-price** of all stocks that are listed will be updated. Default: ``True``</span>
+<span class="sd">    intraday-trades: bool</span>
+<span class="sd">        if ``True`` the **intraday-trades** of the current day of all stocks that are listed will be updated. Default: ``False``</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">daily_hist_price</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">daily_adj_hist_price</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-        <span class="n">intraday_trades</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">intraday_trades</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">daily_hist_price</span> <span class="o">=</span> <span class="n">daily_hist_price</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">daily_adj_hist_price</span> <span class="o">=</span> <span class="n">daily_adj_hist_price</span>
@@ -300,8 +311,8 @@ document.write(`
 <span class="sd">        Parameters</span>
 <span class="sd">        ---------</span>
 <span class="sd">        trbc_hdf_path: str</span>
-<span class="sd">            TRBC.h5 file path. You can download hear: SO_.</span>
-<span class="sd">            .. _SO: https://github.com/yghaderi/panguvan</span>
+<span class="sd">            TRBC.h5 file path. You can download this file `here`_.</span>
+<span class="sd">            .. _here: https://github.com/yghaderi/panguvan/blob/master/TRBC.h5</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">items</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s2">&quot;economic_sector&quot;</span><span class="p">,</span>
@@ -351,7 +362,7 @@ document.write(`
 <a class="viewcode-back" href="../../../autoapi/panguvan/data/ise/index.html#panguvan.data.ISE.handle_update_date">[docs]</a>
     <span class="k">def</span> <span class="nf">handle_update_date</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_market_activity_datetime</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">last_market_activity_datetime</span> <span class="o">=</span> <span class="n">get_last_market_activity_datetime</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">last_market_activity_datetime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tsetmc</span><span class="o">.</span><span class="n">get_last_market_activity_datetime</span><span class="p">()</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_update_date</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">last_update_date</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_last_update_date</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
         <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_update_date</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>

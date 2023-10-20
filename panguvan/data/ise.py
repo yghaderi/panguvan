@@ -11,14 +11,23 @@ from panguvan.utils import df_date
 
 class ISE:
     """
-    Get Iran Stock Exchange data and update them.
+    Get **Iran Stock Exchange** data and update them by https://github.com/yghaderi/oxtapus.
+
+    Parameters
+    ---------
+    daily_hist_price: bool
+        if ``True`` the **daily-hist-price** of all stocks that are listed will be updated. Default: ``True``
+    daily_adj_hist_price: bool
+        if ``True`` the **adjusted-daily-hist-price** of all stocks that are listed will be updated. Default: ``True``
+    intraday-trades: bool
+        if ``True`` the **intraday-trades** of the current day of all stocks that are listed will be updated. Default: ``False``
     """
 
     def __init__(
         self,
         daily_hist_price: bool = True,
         daily_adj_hist_price: bool = True,
-        intraday_trades: bool = True,
+        intraday_trades: bool = False,
     ):
         self.daily_hist_price = daily_hist_price
         self.daily_adj_hist_price = daily_adj_hist_price
@@ -41,8 +50,8 @@ class ISE:
         Parameters
         ---------
         trbc_hdf_path: str
-            TRBC.h5 file path. You can download hear: SO_.
-            .. _SO: https://github.com/yghaderi/panguvan
+            TRBC.h5 file path. You can download this file `here`_.
+            .. _here: https://github.com/yghaderi/panguvan/blob/master/TRBC.h5
         """
         items = [
             "economic_sector",
@@ -70,7 +79,7 @@ class ISE:
             table_name="ise_market", if_exists="append", connection_uri=self.conn_uri
         )
 
-    def get_last_update_date(self, table):
+    def _get_last_update_date(self, table):
         query = f"SELECT date FROM {table}"
         max_date = (
             pl.read_database(query=query, connection_uri=self.conn_uri)
@@ -81,11 +90,11 @@ class ISE:
             return False
         return max_date.row(0, named=True)["date"]
 
-    def handle_update_date(self, table):
+    def _handle_update_date(self, table):
         if not self.last_market_activity_datetime:
             self.last_market_activity_datetime = self.tsetmc.get_last_market_activity_datetime()
         if not self.last_update_date:
-            self.last_update_date = self.get_last_update_date(table)
+            self.last_update_date = self._get_last_update_date(table)
         if (not self.last_update_date) or (
             self.last_update_date < self.last_market_activity_datetime.date()
         ):
@@ -113,9 +122,17 @@ class ISE:
         ]
         table = "ise_daily_hist_price"
         error_log_ins = []
-        if not self.handle_update_date(table):
+        if not self._handle_update_date(table):
             for ins in instruments:
-                df = self.tsetmc.hist_price(ins_code=ins[1])
+                df = self.tsetmc.hist_price(ins_code=str(ins[1]))
+                df["ins_id"] = ins[0]
+                df = pl.from_pandas(df.reset_index()[cols])
+                df.write_database(
+                    table_name=table, if_exists="append", connection_uri=self.conn_uri
+                )
+        else:
+            for ins in instruments:
+                df = self.tsetmc.hist_price(ins_code=str(ins[1]))
                 df["ins_id"] = ins[0]
                 df = pl.from_pandas(df.reset_index()[cols])
                 df.write_database(

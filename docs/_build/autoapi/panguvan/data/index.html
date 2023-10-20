@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>panguvan.data &#8212; panguvan 0.1.3 documentation</title>
+    <title>panguvan.data &#8212; panguvan 0.1.2 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
   <script src="../../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
 
-    <script src="../../../_static/documentation_options.js?v=61571c06"></script>
+    <script src="../../../_static/documentation_options.js?v=969202b3"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -129,7 +129,7 @@
   
   
   
-    <p class="title logo__title">panguvan 0.1.3 documentation</p>
+    <p class="title logo__title">panguvan 0.1.2 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
@@ -345,14 +345,23 @@ document.write(`
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#panguvan.data.ISE" title="panguvan.data.ISE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ISE</span></code></a></p></td>
-<td><p>Get Iran Stock Exchange data and update them.</p></td>
+<td><p>Get <strong>Iran Stock Exchange</strong> data and update them by <a class="github reference external" href="https://github.com/yghaderi/oxtapus">yghaderi/oxtapus</a>.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="panguvan.data.ISE">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ISE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">daily_hist_price</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">daily_adj_hist_price</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intraday_trades</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/panguvan/data/ise.html#ISE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#panguvan.data.ISE" title="Link to this definition">#</a></dt>
-<dd><p>Get Iran Stock Exchange data and update them.</p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ISE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">daily_hist_price</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">daily_adj_hist_price</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intraday_trades</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/panguvan/data/ise.html#ISE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#panguvan.data.ISE" title="Link to this definition">#</a></dt>
+<dd><p>Get <strong>Iran Stock Exchange</strong> data and update them by <a class="github reference external" href="https://github.com/yghaderi/oxtapus">yghaderi/oxtapus</a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>daily_hist_price</strong> (<em>bool</em>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> the <strong>daily-hist-price</strong> of all stocks that are listed will be updated. Default: <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
+<li><p><strong>daily_adj_hist_price</strong> (<em>bool</em>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> the <strong>adjusted-daily-hist-price</strong> of all stocks that are listed will be updated. Default: <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
+<li><p><strong>intraday-trades</strong> (<em>bool</em>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> the <strong>intraday-trades</strong> of the current day of all stocks that are listed will be updated. Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="panguvan.data.ISE.write_date_table">
 <span class="sig-name descname"><span class="pre">write_date_table</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/panguvan/data/ise.html#ISE.write_date_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#panguvan.data.ISE.write_date_table" title="Link to this definition">#</a></dt>
@@ -362,7 +371,7 @@ document.write(`
 <dt class="sig sig-object py" id="panguvan.data.ISE.write_trbc_tables">
 <span class="sig-name descname"><span class="pre">write_trbc_tables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trbc_hdf_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../../../_modules/panguvan/data/ise.html#ISE.write_trbc_tables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#panguvan.data.ISE.write_trbc_tables" title="Link to this definition">#</a></dt>
 <dd><p>Append The Refinitiv Business Classification data to tables.
-:param trbc_hdf_path: TRBC.h5 file path. You can download hear: <a class="reference external" href="https://github.com/yghaderi/panguvan">SO</a>.</p>
+:param trbc_hdf_path: TRBC.h5 file path. You can download this file <a class="reference external" href="https://github.com/yghaderi/panguvan/blob/master/TRBC.h5">here</a>.</p>
 <blockquote>
 <div></div></blockquote>
 <dl class="field-list simple">

@@ -1,8 +1,8 @@
 .venv/
- .*/
+.*/
 
 *.pyc
 *.pyo
 
  dist/
-src/panguvan/.env.config
+panguvan/config/.env.config
