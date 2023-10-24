@@ -12,26 +12,11 @@ from panguvan.utils import df_date
 class ISE:
     """
     Get **Iran Stock Exchange** data and update them by https://github.com/yghaderi/oxtapus.
-
-    Parameters
-    ---------
-    daily_hist_price: bool
-        if ``True`` the **daily-hist-price** of all stocks that are listed will be updated. Default: ``True``
-    daily_adj_hist_price: bool
-        if ``True`` the **adjusted-daily-hist-price** of all stocks that are listed will be updated. Default: ``True``
-    intraday-trades: bool
-        if ``True`` the **intraday-trades** of the current day of all stocks that are listed will be updated. Default: ``False``
     """
 
     def __init__(
         self,
-        daily_hist_price: bool = True,
-        daily_adj_hist_price: bool = True,
-        intraday_trades: bool = False,
     ):
-        self.daily_hist_price = daily_hist_price
-        self.daily_adj_hist_price = daily_adj_hist_price
-        self.intraday_trades = intraday_trades
         self.tsetmc = TSETMC()
         self.engine = conn_engine()
         self.conn_uri = conn_uri()
@@ -40,6 +25,7 @@ class ISE:
         self.last_call_update_date: Optional[datetime.date] = None
 
     def write_date_table(self):
+        """"""
         df = df_date()
         df.write_database(
             table_name="date", if_exists="append", connection_uri=self.conn_uri

@@ -4,43 +4,155 @@ import jdatetime
 import math
 
 
-def convert_date(date):
+def convert_date(date: datetime.date):
+    """Convert date from gregorian to jalali.
+
+    Parameters
+    ----------
+    date: datetime.date
+        Gregorian date.
+
+    Returns
+    -------
+    jdatetime.date
+    """
     return jdatetime.date.fromgregorian(date=date)
 
 
-def jdate(date):
+def jdate(date: datetime.date):
+    """Convert date from gregorian to jalali and return jalali date string-format.
+
+    Parameters
+    ----------
+    date: datetime.date
+        Gregorian date.
+
+    Returns
+    -------
+    str
+    """
     return convert_date(date).strftime("%Y-%m-%d")
 
 
-def jweek_day(date):
+def jweek_day(date: datetime.date):
+    """Convert date from gregorian to jalali and return jalali week-day.
+
+    Parameters
+    ----------
+    date: datetime.date
+        Gregorian date.
+
+    Returns
+    -------
+    int
+    """
     return convert_date(date).weekday()
 
 
-def jweek_number(date):
+def jweek_number(date: datetime.date):
+    """Convert date from gregorian to jalali and return jalali week-number
+
+    Parameters
+    ----------
+    date: datetime.date
+        Gregorian date.
+
+    Returns
+    -------
+    int
+    """
     return convert_date(date).weeknumber()
 
 
-def jyear(date):
+def jyear(date: datetime.date):
+    """Convert date from gregorian to jalali and return jalali year.
+
+    Parameters
+    ----------
+    date: datetime.date
+        Gregorian date.
+
+    Returns
+    -------
+    int
+    """
     return convert_date(date).year
 
 
-def jmonth(date):
+def jmonth(date: datetime.date):
+    """Convert date from gregorian to jalali and return jalali month.
+
+    Parameters
+    ----------
+    date: datetime.date
+        Gregorian date.
+
+    Returns
+    -------
+    int
+    """
     return convert_date(date).month
 
 
-def jquarter(month):
+def jquarter(month: int):
+    """Convert date from gregorian to jalali and return jalali quarter.
+
+    Parameters
+    ----------
+    month: int
+        Month number.
+
+    Returns
+    -------
+    int
+    """
     return math.ceil(month / 3)
 
 
-def jday(date):
+def jday(date: datetime.date):
+    """Convert date from gregorian to jalali and return jalali day.
+
+    Parameters
+    ----------
+    date: datetime.date
+        Gregorian date.
+
+    Returns
+    -------
+    int
+    """
     return jdatetime.date.fromgregorian(date=date).day
 
 
-def df_date():
+def df_date(start: datetime.date = datetime.date(year=2001, month=1, day=1),
+            end: datetime.date = datetime.date(year=2030, month=1, day=1)
+            ):
+    """
+    Create polars.DataFrame from start date to end date whit columns:
+        date: pl.Date
+        jdate: pl.Utf8
+        jweek_day:
+        jweek_day:
+        jweek_number:
+        jyear
+        jmonth
+        jday
+        jquarter:
+        gregorian-date, Jalali-date, jalali week-day, jalali
+    week-number,
+    Parameters
+    ----------
+    start
+    end
+
+    Returns
+    -------
+
+    """
     df = pl.DataFrame(
         pl.date_range(
-            start=datetime.date(year=2001, month=1, day=1),
-            end=datetime.date(year=2030, month=1, day=1),
+            start=start,
+            end=end,
             interval="1d",
             eager=True,
         ).alias("date")
