@@ -1,4 +1,3 @@
-from collections import namedtuple
 import datetime
 from typing import Optional
 from sqlalchemy import Column, BigInteger
@@ -99,6 +98,7 @@ class DailyHistPrice(SQLModel, table=True):
     y_final: Optional[int] = Field(default=None)
     volume: int = Field(sa_column=Column(BigInteger()))
     value: int = Field(sa_column=Column(BigInteger()))
+    trade_count: int = Field(sa_column=Column(BigInteger()))
 
 
 class DailyAdjHistPrice(SQLModel, table=True):
@@ -119,3 +119,36 @@ class DailyAdjHistPrice(SQLModel, table=True):
     final: int
     volume: int = Field(sa_column=Column(BigInteger()))
     value: int = Field(sa_column=Column(BigInteger()))
+    trade_count: int = Field(sa_column=Column(BigInteger()))
+
+
+class OptionInfo(SQLModel, table=True):
+    __tablename__ = "tsetmc_option_info"
+
+    id: Optional[int] = Field(default=None, primary_key=True)
+    ins_id: str = Field(primary_key=True)
+    listed_date: datetime.date
+    ex_date: datetime.date
+    lot_size: int
+    k: int
+
+
+class OptionHistPrice(SQLModel, table=True):
+    __tablename__ = "tsetmc_option_hist_price"
+    __table_args__ = (
+        UniqueConstraint(
+            "date", "ins_id", name="tsetmc_daily_adj_hist_price_unique_date_ins_id"
+        ),
+    )
+    id: Optional[int] = Field(default=None, primary_key=True)
+    date: datetime.date = Field(foreign_key="date.date")
+    ins_id: str = Field(foreign_key="tsetmc_instrument.ins_id")
+    open: int
+    high: int
+    low: int
+    close: int
+    final: int
+    volume: int = Field(sa_column=Column(BigInteger()))
+    value: int = Field(sa_column=Column(BigInteger()))
+    trade_count: int = Field(sa_column=Column(BigInteger()))
+    open_interest: int = Field(sa_column=Column(BigInteger()))
