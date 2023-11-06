@@ -78,7 +78,9 @@ class ISE:
 
     def _handle_update_date(self, table):
         if not self.last_market_activity_datetime:
-            self.last_market_activity_datetime = self.tsetmc.get_last_market_activity_datetime()
+            self.last_market_activity_datetime = (
+                self.tsetmc.get_last_market_activity_datetime()
+            )
         if not self.last_update_date:
             self.last_update_date = self._get_last_update_date(table)
         if (not self.last_update_date) or (
