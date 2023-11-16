@@ -1,8 +1,8 @@
 import os
 import logging
+from datetime import datetime
 from typing import List
 import dotenv
-from sqlmodel import create_engine
 import asyncpg
 import polars as pl
 
@@ -22,15 +22,33 @@ def database_url():
     logging.error("Pleas config your Database!")
 
 
-async def write_df_to_db(table: str, df: pl.DataFrame):
+async def write_df_to_db(table: str, df: pl.DataFrame) -> None:
+    """
+    Parameters
+    ---------
+    table: str
+        table name
+    df : polars.DataFrame
+        data-frame
+    """
     conn = await asyncpg.connect(database_url())
     result = await conn.copy_records_to_table(table, records=df.to_numpy(), columns=df.columns)
-    logging.info(result)
+    print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}: {result} to {table!r} table.")
     await conn.close()
 
 
-async def write_records_to_db(table: str, records: List[list[any]], columns: List[str]):
+async def write_records_to_db(table: str, records: List[list[any]], columns: List[str]) -> None:
+    """
+    Parameters
+    ---------
+    table: str
+        table name
+    records : List[list[any]]
+        records
+    columns: List[str]
+        columns name
+    """
     conn = await asyncpg.connect(database_url())
     result = await conn.copy_records_to_table(table, records=records, columns=columns)
-    logging.info(result)
+    print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}: {result} records to {table!r} table.")
     await conn.close()

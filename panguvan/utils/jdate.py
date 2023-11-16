@@ -125,8 +125,8 @@ def jday(date: datetime.date):
 
 
 def df_date(
-    start: datetime.date = datetime.date(year=2001, month=1, day=1),
-    end: datetime.date = datetime.date(year=2030, month=1, day=1),
+    start: datetime.date,
+    end: datetime.date,
 ):
     """
     Create polars.DataFrame from start date to end date whit columns:

@@ -1,12 +1,12 @@
+import asyncio
 import datetime
 from typing import Optional, List, Tuple
 from oxtapus.ise import TSETMC
 import polars as pl
 import pandas as pd
 
-
-from panguvan.db import conn_engine, conn_uri
-from panguvan.utils import df_date
+from panguvan.db import write_df_to_db, write_records_to_db
+from panguvan.utils.jdate import df_date
 
 
 class ISE:
@@ -15,28 +15,25 @@ class ISE:
     """
 
     def __init__(
-        self,
+            self,
     ):
         self.tsetmc = TSETMC()
-        self.engine = conn_engine()
-        self.conn_uri = conn_uri()
         self.last_market_activity_datetime: Optional[datetime.date] = None
         self.last_update_date: Optional[datetime.date] = None
         self.last_call_update_date: Optional[datetime.date] = None
 
-    def write_date_table(self):
-        """"""
-        df = df_date()
-        df.write_database(
-            table_name="date", if_exists="append", connection_uri=self.conn_uri
-        )
-
     def write_trbc_tables(self, trbc_hdf_path: str) -> None:
-        """Append The Refinitiv Business Classification data to tables.
+        """
+        .. raw:: html
+
+            <div dir="rtl">
+                داده‌هایِ efinitiv Business Classification رو در جدول‌هایِ مربوطه کپی می‌کنه.
+            </div>
+
         Parameters
         ---------
         trbc_hdf_path: str
-            TRBC.h5 file path. You can download this file `here`_.
+            TRBC.h5 . You can download this file `here`_.
             .. _here: https://github.com/yghaderi/panguvan/blob/master/TRBC.h5
         """
         items = [
@@ -48,12 +45,10 @@ class ISE:
         ]
         for i in items:
             df = pl.from_pandas(pd.read_hdf(trbc_hdf_path, key=i))
-            df.write_database(
-                table_name=f"ise_{i}", if_exists="append", connection_uri=self.conn_uri
-            )
+            write_df_to_db(table=f"tsetmc_{i}", df=df)
 
     def write_market_table(
-        self, id: List[int] = [1, 2, 3], name: List[str] = ["tse", "ifb", "ifb-otc"]
+            self, id: List[int] = [1, 2, 3], name: List[str] = ["tse", "ifb", "ifb-otc"]
     ):
         df = pl.DataFrame(
             {
@@ -84,7 +79,7 @@ class ISE:
         if not self.last_update_date:
             self.last_update_date = self._get_last_update_date(table)
         if (not self.last_update_date) or (
-            self.last_update_date < self.last_market_activity_datetime.date()
+                self.last_update_date < self.last_market_activity_datetime.date()
         ):
             return False
         return True
