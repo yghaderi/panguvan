@@ -21,14 +21,14 @@ class EconomicSector(SQLModel, table=True):
     __tablename__ = "tsetmc_economic_sector"
 
     id: int = Field(primary_key=True)
-    name: str
+    name: str = Field(unique=True)
 
 
 class BusinessSector(SQLModel, table=True):
     __tablename__ = "tsetmc_business_sector"
 
     id: int = Field(primary_key=True)
-    name: str
+    name: str = Field(unique=True)
     economic_sector_id: int = Field(foreign_key="tsetmc_economic_sector.id")
 
 
@@ -36,7 +36,7 @@ class IndustryGroup(SQLModel, table=True):
     __tablename__ = "tsetmc_industry_group"
 
     id: int = Field(primary_key=True)
-    name: str
+    name: str = Field(unique=True)
     business_sector_id: int = Field(foreign_key="tsetmc_business_sector.id")
 
 
@@ -44,7 +44,7 @@ class Industry(SQLModel, table=True):
     __tablename__ = "tsetmc_industry"
 
     id: int = Field(primary_key=True)
-    name: str
+    name: str = Field(unique=True)
     industry_group_id: int = Field(foreign_key="tsetmc_industry_group.id")
 
 
@@ -52,7 +52,7 @@ class Activity(SQLModel, table=True):
     __tablename__ = "tsetmc_activity"
 
     id: int = Field(sa_column=Column(BigInteger(), primary_key=True))
-    name: str
+    name: str = Field(unique=True)
     industry_id: int = Field(foreign_key="tsetmc_industry.id")
 
 
@@ -60,7 +60,7 @@ class Market(SQLModel, table=True):
     __tablename__ = "tsetmc_market"
 
     id: int = Field(primary_key=True)
-    name: str
+    name: str = Field(unique=True)
 
 
 class Instrument(SQLModel, table=True):
@@ -68,7 +68,7 @@ class Instrument(SQLModel, table=True):
 
     ins_id: str = Field(primary_key=True)
     ins_code: int = Field(sa_column=Column(BigInteger()))
-    symbol: str
+    symbol: str = Field(unique=True)
     name: str
     symbol_en: str
     name_en: str
@@ -87,7 +87,7 @@ class DailyHistPrice(SQLModel, table=True):
         ),
     )
 
-    id: Optional[int] = Field(default=None, primary_key=True)
+    id: int= Field(default=None, primary_key=True)
     date: datetime.date = Field(foreign_key="date.date")
     ins_id: str = Field(foreign_key="tsetmc_instrument.ins_id")
     open: int
@@ -109,7 +109,7 @@ class DailyAdjHistPrice(SQLModel, table=True):
         ),
     )
 
-    id: Optional[int] = Field(default=None, primary_key=True)
+    id: int= Field(default=None, primary_key=True)
     date: datetime.date = Field(foreign_key="date.date")
     ins_id: str = Field(foreign_key="tsetmc_instrument.ins_id")
     open: int
@@ -125,8 +125,10 @@ class DailyAdjHistPrice(SQLModel, table=True):
 class OptionInfo(SQLModel, table=True):
     __tablename__ = "tsetmc_option_info"
 
-    id: Optional[int] = Field(default=None, primary_key=True)
+    id: int= Field(default=None, primary_key=True)
     ins_id: str = Field(primary_key=True)
+    symbol: str
+    name: str
     listed_date: datetime.date
     ex_date: datetime.date
     lot_size: int
@@ -140,9 +142,9 @@ class OptionHistPrice(SQLModel, table=True):
             "date", "ins_id", name="tsetmc_daily_adj_hist_price_unique_date_ins_id"
         ),
     )
-    id: Optional[int] = Field(default=None, primary_key=True)
+    id: int = Field(default=None, primary_key=True)
     date: datetime.date = Field(foreign_key="date.date")
-    ins_id: str = Field(foreign_key="tsetmc_instrument.ins_id")
+    ins_id: str = Field(foreign_key="tsetmc_option_info.ins_id")
     open: int
     high: int
     low: int
