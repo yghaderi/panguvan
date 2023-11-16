@@ -5,7 +5,7 @@ import polars as pl
 import pandas as pd
 
 
-from panguvan.config import conn_engine, conn_uri
+from panguvan.db import conn_engine, conn_uri
 from panguvan.utils import df_date
 
 
