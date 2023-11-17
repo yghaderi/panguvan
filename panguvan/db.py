@@ -32,12 +32,18 @@ async def write_df_to_db(table: str, df: pl.DataFrame) -> None:
         data-frame
     """
     conn = await asyncpg.connect(database_url())
-    result = await conn.copy_records_to_table(table, records=df.to_numpy(), columns=df.columns)
-    print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}: {result} to {table!r} table.")
+    result = await conn.copy_records_to_table(
+        table, records=df.to_numpy(), columns=df.columns
+    )
+    print(
+        f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}: {result} to {table!r} table."
+    )
     await conn.close()
 
 
-async def write_records_to_db(table: str, records: List[list[any]], columns: List[str]) -> None:
+async def write_records_to_db(
+    table: str, records: List[list[any]], columns: List[str]
+) -> None:
     """
     Parameters
     ---------
@@ -50,5 +56,24 @@ async def write_records_to_db(table: str, records: List[list[any]], columns: Lis
     """
     conn = await asyncpg.connect(database_url())
     result = await conn.copy_records_to_table(table, records=records, columns=columns)
-    print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}: {result} records to {table!r} table.")
+    print(
+        f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}: {result} records to {table!r} table."
+    )
     await conn.close()
+
+
+async def fetch(query: str) -> List[any]:
+    """
+    Parameters
+    ---------
+    query: str
+        Query arguments.
+
+    Returns
+    -------
+    A list of Record instances.
+    """
+    conn = await asyncpg.connect(database_url())
+    result = await conn.fetch(query)
+    await conn.close()
+    return result

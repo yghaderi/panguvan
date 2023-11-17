@@ -1,4 +1,3 @@
-import asyncio
 import datetime
 import asyncio
 from panguvan.db import write_df_to_db
@@ -8,8 +7,8 @@ loop = asyncio.get_event_loop()
 
 
 def write_date_table(
-        start: datetime.date = datetime.date(year=2001, month=1, day=1),
-        end: datetime.date = datetime.date(year=2030, month=1, day=1),
+    start: datetime.date = datetime.date(year=2001, month=1, day=1),
+    end: datetime.date = datetime.date(year=2030, month=1, day=1),
 ):
     """
     .. raw:: html

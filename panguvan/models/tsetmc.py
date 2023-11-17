@@ -64,7 +64,7 @@ class Market(SQLModel, table=True):
 
 
 class Instrument(SQLModel, table=True):
-    __tablename__ = "tsetmc_instrument"
+    __tablename__ = "tsetmc_stock"
 
     ins_id: str = Field(primary_key=True)
     ins_code: int = Field(sa_column=Column(BigInteger()))
@@ -79,15 +79,15 @@ class Instrument(SQLModel, table=True):
     market_id: int = Field(foreign_key="tsetmc_market.id")
 
 
-class DailyHistPrice(SQLModel, table=True):
-    __tablename__ = "tsetmc_daily_hist_price"
+class StockDailyHistPrice(SQLModel, table=True):
+    __tablename__ = "tsetmc_stock_daily_hist_price"
     __table_args__ = (
         UniqueConstraint(
             "date", "ins_id", name="tsetmc_daily_hist_price_unique_date_ins_id"
         ),
     )
 
-    id: int= Field(default=None, primary_key=True)
+    id: int = Field(default=None, primary_key=True)
     date: datetime.date = Field(foreign_key="date.date")
     ins_id: str = Field(foreign_key="tsetmc_instrument.ins_id")
     open: int
@@ -101,15 +101,15 @@ class DailyHistPrice(SQLModel, table=True):
     trade_count: int = Field(sa_column=Column(BigInteger()))
 
 
-class DailyAdjHistPrice(SQLModel, table=True):
-    __tablename__ = "tsetmc_daily_adj_hist_price"
+class StockDailyAdjHistPrice(SQLModel, table=True):
+    __tablename__ = "tsetmc_stock_daily_adj_hist_price"
     __table_args__ = (
         UniqueConstraint(
             "date", "ins_id", name="tsetmc_daily_adj_hist_price_unique_date_ins_id"
         ),
     )
 
-    id: int= Field(default=None, primary_key=True)
+    id: int = Field(default=None, primary_key=True)
     date: datetime.date = Field(foreign_key="date.date")
     ins_id: str = Field(foreign_key="tsetmc_instrument.ins_id")
     open: int
@@ -125,7 +125,7 @@ class DailyAdjHistPrice(SQLModel, table=True):
 class OptionInfo(SQLModel, table=True):
     __tablename__ = "tsetmc_option_info"
 
-    id: int= Field(default=None, primary_key=True)
+    id: int = Field(default=None, primary_key=True)
     ins_id: str = Field(primary_key=True)
     symbol: str
     name: str
