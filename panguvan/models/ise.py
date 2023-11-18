@@ -131,6 +131,7 @@ class Options(SQLModel, table=True):
     ua_ins_code: str
     symbol: str
     name: str
+    type: str
     listed_date: datetime.date
     ex_date: datetime.date
 
@@ -155,4 +156,5 @@ class OptionDailyHistTrade(SQLModel, table=True):
     trade_count: int = Field(sa_column=Column(BigInteger()))
     open_interest: int = Field(sa_column=Column(BigInteger()))
     k: int
+    t: int
     lot_size: int

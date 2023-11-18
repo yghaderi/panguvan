@@ -6,10 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="03043349-8c55-4ba4-bc54-7d078851f138" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/panguvan/data/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/panguvan/data/base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/panguvan/data/tsetmc.py" beforeDir="false" afterPath="$PROJECT_DIR$/panguvan/data/tsetmc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/panguvan/db.py" beforeDir="false" afterPath="$PROJECT_DIR$/panguvan/db.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/panguvan/models/tsetmc.py" beforeDir="false" afterPath="$PROJECT_DIR$/panguvan/models/tsetmc.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/panguvan/data/tsetmc.py" beforeDir="false" afterPath="$PROJECT_DIR$/panguvan/data/ise.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/panguvan/models/ise.py" beforeDir="false" afterPath="$PROJECT_DIR$/panguvan/models/ise.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,7 +57,7 @@
       <recent name="$PROJECT_DIR$/src/panguvan" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.tsetmc">
+  <component name="RunManager" selected="Python.ise">
     <configuration name="base" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="panguvan" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -102,7 +100,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="tsetmc" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="ise" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="panguvan" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -114,7 +112,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/panguvan/data/tsetmc.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/panguvan/data/ise.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -125,7 +123,7 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.tsetmc" />
+        <item itemvalue="Python.ise" />
         <item itemvalue="Python.base" />
         <item itemvalue="Python.get" />
       </list>
