@@ -79,11 +79,11 @@ class Stocks(SQLModel, table=True):
     market_id: int = Field(foreign_key="ise_market.id")
 
 
-class StockDailyHistPrice(SQLModel, table=True):
-    __tablename__ = "ise_stock_daily_hist_price"
+class StockDailyHistTrade(SQLModel, table=True):
+    __tablename__ = "ise_stock_daily_hist_trade"
     __table_args__ = (
         UniqueConstraint(
-            "date", "ins_id", name="ise_stock_daily_hist_price_unique_date_ins_id"
+            "date", "ins_id", name="ise_stock_daily_hist_trade_unique_date_ins_id"
         ),
     )
 
@@ -101,11 +101,11 @@ class StockDailyHistPrice(SQLModel, table=True):
     trade_count: int = Field(sa_column=Column(BigInteger()))
 
 
-class StockDailyAdjHistPrice(SQLModel, table=True):
-    __tablename__ = "ise_stock_daily_adj_hist_price"
+class StockDailyAdjHistTrade(SQLModel, table=True):
+    __tablename__ = "ise_stock_daily_adj_hist_trade"
     __table_args__ = (
         UniqueConstraint(
-            "date", "ins_id", name="ise_daily_adj_hist_price_unique_date_ins_id"
+            "date", "ins_id", name="ise_daily_adj_hist_trade_unique_date_ins_id"
         ),
     )
 
@@ -135,11 +135,11 @@ class Options(SQLModel, table=True):
     ex_date: datetime.date
 
 
-class OptionHistPrice(SQLModel, table=True):
-    __tablename__ = "ise_option_hist_price"
+class OptionDailyHistTrade(SQLModel, table=True):
+    __tablename__ = "ise_option_daily_hist_trade"
     __table_args__ = (
         UniqueConstraint(
-            "date", "ins_id", name="ise_daily_adj_hist_price_unique_date_ins_id"
+            "date", "ins_id", name="ise_option_daily_hist_trade_unique_date_ins_id"
         ),
     )
     id: int = Field(default=None, primary_key=True)
