@@ -1,10 +1,9 @@
 import asyncio
-import datetime
-from typing import Optional, List, Tuple
+from typing import Tuple
 import polars as pl
 import pandas as pd
 from oxtapus import TSETMC
-from panguvan.db import write_df_to_db, write_records_to_db, fetch
+from panguvan.db import write_df, fetch
 
 loop = asyncio.get_event_loop()
 
@@ -32,12 +31,12 @@ def write_trbc_tables(trbc_hdf_path: str) -> None:
     ]
     for i in items:
         df = pl.from_pandas(pd.read_hdf(trbc_hdf_path, key=i))
-        loop.run_until_complete(write_df_to_db(table=f"tsetmc_{i}", df=df))
+        loop.run_until_complete(write_df(table=f"tsetmc_{i}", df=df))
         loop.close()
 
 
 def write_market_table(
-        id: Tuple[int] = (1, 2, 3), name: Tuple[str] = ("tse", "ifb", "ifb-otc")
+    id: Tuple[int] = (1, 2, 3), name: Tuple[str] = ("tse", "ifb", "ifb-otc")
 ) -> None:
     """
     .. raw:: html
@@ -59,7 +58,7 @@ def write_market_table(
             "name": name,
         }
     )
-    loop.run_until_complete(write_df_to_db(table=f"tsetmc_market", df=df))
+    loop.run_until_complete(write_df(table=f"tsetmc_market", df=df))
     loop.close()
 
 
@@ -81,13 +80,17 @@ def _handle_update_date(table: str):
     last_update_date = _get_max_date(table)
     if last_update_date:
         if last_update_date < TSETMC().last_market_activity_datetime().date():
-            return last_update_date
+            return True
     return False
 
 
-def update_daily_hist_price():
+def update_stock_daily_hist_price():
     """
-    Get hist-price and push on table.
+    .. raw:: html
+
+        <div dir="rtl">
+            داده‌هایِ معالمه‌یِ سهام رو از ابتدا تا امروز یا روزي آخر رو با اختاپوس می‌گیره و در پایگاه-داده می‌ریزه.
+        </div>
     """
     tsetmc = TSETMC()
     cols = [
@@ -101,20 +104,39 @@ def update_daily_hist_price():
         "y_final",
         "volume",
         "value",
-        "trade_count"
+        "trade_count",
     ]
     table = "tsetmc_stock_daily_hist_price"
-    date = _handle_update_date(table)
+    check_update_date = _handle_update_date(table)
+    date = tsetmc.last_market_activity_datetime()
     stocks_list = _get_stock()
-    if not date:
+    if not check_update_date:
         for stock in stocks_list:
             df = tsetmc.hist_price(ins_code=stock["ins_code"])
-            df = df.with_columns(pl.lit(stock["ins_id"]).alias("ins_id")).select(cols)
-            loop.run_until_complete(write_df_to_db(table=table, df=df))
+            df = (
+                df.with_columns(pl.lit(stock["ins_id"]).alias("ins_id"))
+                .filter(pl.col("volume") > 0)
+                .select(cols)
+            )
+            loop.run_until_complete(write_df(table=table, df=df))
             loop.close()
-    else:
-        for stock in stocks_list:
-            df = tsetmc.hist_price(ins_code=stock["ins_code"])
-            df = df.with_columns(pl.lit(stock["ins_id"]).alias("ins_id")).select(cols).filter(pl.col("date") > date)
-            loop.run_until_complete(write_df_to_db(table=table, df=df))
-            loop.close()
+    elif check_update_date:
+        df = tsetmc.mw("stock").filter(
+            (pl.col("ob_level") == 1)
+            & (pl.col("volume") > 0)
+            & (pl.col("ins_id").str.ends_with("1"))
+        )
+        df = df.with_columns(pl.lit(date).alias("date")).select(cols)
+        loop.run_until_complete(write_df(table=table, df=df))
+        loop.close()
+
+
+def update_specific_option_data():
+    """
+    .. raw:: html
+
+        <div dir="rtl">
+            داده‌هایِ معالمه‌یِ سهام رو از ابتدا تا امروز یا روزي آخر رو با اختاپوس می‌گیره و در پایگاه-داده می‌ریزه.
+        </div>
+    """
+    tsetmc = TSETMC().specific_option_data()

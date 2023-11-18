@@ -9,6 +9,7 @@
       <change beforePath="$PROJECT_DIR$/panguvan/data/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/panguvan/data/base.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/panguvan/data/tsetmc.py" beforeDir="false" afterPath="$PROJECT_DIR$/panguvan/data/tsetmc.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/panguvan/db.py" beforeDir="false" afterPath="$PROJECT_DIR$/panguvan/db.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/panguvan/models/tsetmc.py" beforeDir="false" afterPath="$PROJECT_DIR$/panguvan/models/tsetmc.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

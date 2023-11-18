@@ -1,6 +1,6 @@
 import datetime
 import asyncio
-from panguvan.db import write_df_to_db
+from panguvan.db import write_df
 from panguvan.utils.jdate import df_date
 
 loop = asyncio.get_event_loop()
@@ -25,5 +25,5 @@ def write_date_table(
         تاریخِ انتها
     """
     df = df_date(start=start, end=end)
-    loop.run_until_complete(write_df_to_db(table="date", df=df))
+    loop.run_until_complete(write_df(table="date", df=df))
     loop.close()

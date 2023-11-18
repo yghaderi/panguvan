@@ -18,53 +18,53 @@ class Date(SQLModel, table=True):
 
 
 class EconomicSector(SQLModel, table=True):
-    __tablename__ = "tsetmc_economic_sector"
+    __tablename__ = "ise_economic_sector"
 
     id: int = Field(primary_key=True)
     name: str = Field(unique=True)
 
 
 class BusinessSector(SQLModel, table=True):
-    __tablename__ = "tsetmc_business_sector"
+    __tablename__ = "ise_business_sector"
 
     id: int = Field(primary_key=True)
     name: str = Field(unique=True)
-    economic_sector_id: int = Field(foreign_key="tsetmc_economic_sector.id")
+    economic_sector_id: int = Field(foreign_key="ise_economic_sector.id")
 
 
 class IndustryGroup(SQLModel, table=True):
-    __tablename__ = "tsetmc_industry_group"
+    __tablename__ = "ise_industry_group"
 
     id: int = Field(primary_key=True)
     name: str = Field(unique=True)
-    business_sector_id: int = Field(foreign_key="tsetmc_business_sector.id")
+    business_sector_id: int = Field(foreign_key="ise_business_sector.id")
 
 
 class Industry(SQLModel, table=True):
-    __tablename__ = "tsetmc_industry"
+    __tablename__ = "ise_industry"
 
     id: int = Field(primary_key=True)
     name: str = Field(unique=True)
-    industry_group_id: int = Field(foreign_key="tsetmc_industry_group.id")
+    industry_group_id: int = Field(foreign_key="ise_industry_group.id")
 
 
 class Activity(SQLModel, table=True):
-    __tablename__ = "tsetmc_activity"
+    __tablename__ = "ise_activity"
 
     id: int = Field(sa_column=Column(BigInteger(), primary_key=True))
     name: str = Field(unique=True)
-    industry_id: int = Field(foreign_key="tsetmc_industry.id")
+    industry_id: int = Field(foreign_key="ise_industry.id")
 
 
 class Market(SQLModel, table=True):
-    __tablename__ = "tsetmc_market"
+    __tablename__ = "ise_market"
 
     id: int = Field(primary_key=True)
     name: str = Field(unique=True)
 
 
-class Instrument(SQLModel, table=True):
-    __tablename__ = "tsetmc_stock"
+class Stocks(SQLModel, table=True):
+    __tablename__ = "ise_stocks"
 
     ins_id: str = Field(primary_key=True)
     ins_code: int = Field(sa_column=Column(BigInteger()))
@@ -74,22 +74,22 @@ class Instrument(SQLModel, table=True):
     name_en: str
 
     activity_id: int = Field(
-        sa_column=Column(BigInteger()), foreign_key="tsetmc_activity.id"
+        sa_column=Column(BigInteger()), foreign_key="ise_activity.id"
     )
-    market_id: int = Field(foreign_key="tsetmc_market.id")
+    market_id: int = Field(foreign_key="ise_market.id")
 
 
 class StockDailyHistPrice(SQLModel, table=True):
-    __tablename__ = "tsetmc_stock_daily_hist_price"
+    __tablename__ = "ise_stock_daily_hist_price"
     __table_args__ = (
         UniqueConstraint(
-            "date", "ins_id", name="tsetmc_daily_hist_price_unique_date_ins_id"
+            "date", "ins_id", name="ise_stock_daily_hist_price_unique_date_ins_id"
         ),
     )
 
     id: int = Field(default=None, primary_key=True)
     date: datetime.date = Field(foreign_key="date.date")
-    ins_id: str = Field(foreign_key="tsetmc_instrument.ins_id")
+    ins_id: str = Field(foreign_key="ise_stocks.ins_id")
     open: int
     high: int
     low: int
@@ -102,16 +102,16 @@ class StockDailyHistPrice(SQLModel, table=True):
 
 
 class StockDailyAdjHistPrice(SQLModel, table=True):
-    __tablename__ = "tsetmc_stock_daily_adj_hist_price"
+    __tablename__ = "ise_stock_daily_adj_hist_price"
     __table_args__ = (
         UniqueConstraint(
-            "date", "ins_id", name="tsetmc_daily_adj_hist_price_unique_date_ins_id"
+            "date", "ins_id", name="ise_daily_adj_hist_price_unique_date_ins_id"
         ),
     )
 
     id: int = Field(default=None, primary_key=True)
     date: datetime.date = Field(foreign_key="date.date")
-    ins_id: str = Field(foreign_key="tsetmc_instrument.ins_id")
+    ins_id: str = Field(foreign_key="ise_stocks.ins_id")
     open: int
     high: int
     low: int
@@ -122,29 +122,29 @@ class StockDailyAdjHistPrice(SQLModel, table=True):
     trade_count: int = Field(sa_column=Column(BigInteger()))
 
 
-class OptionInfo(SQLModel, table=True):
-    __tablename__ = "tsetmc_option_info"
+class Options(SQLModel, table=True):
+    __tablename__ = "ise_options"
 
     id: int = Field(default=None, primary_key=True)
-    ins_id: str = Field(primary_key=True)
+    ins_id: str = Field(unique=True)
+    ins_code: str = Field(unique=True)
+    ua_ins_code: str
     symbol: str
     name: str
     listed_date: datetime.date
     ex_date: datetime.date
-    lot_size: int
-    k: int
 
 
 class OptionHistPrice(SQLModel, table=True):
-    __tablename__ = "tsetmc_option_hist_price"
+    __tablename__ = "ise_option_hist_price"
     __table_args__ = (
         UniqueConstraint(
-            "date", "ins_id", name="tsetmc_daily_adj_hist_price_unique_date_ins_id"
+            "date", "ins_id", name="ise_daily_adj_hist_price_unique_date_ins_id"
         ),
     )
     id: int = Field(default=None, primary_key=True)
     date: datetime.date = Field(foreign_key="date.date")
-    ins_id: str = Field(foreign_key="tsetmc_option_info.ins_id")
+    ins_id: str = Field(foreign_key="ise_options.ins_id")
     open: int
     high: int
     low: int
@@ -154,3 +154,5 @@ class OptionHistPrice(SQLModel, table=True):
     value: int = Field(sa_column=Column(BigInteger()))
     trade_count: int = Field(sa_column=Column(BigInteger()))
     open_interest: int = Field(sa_column=Column(BigInteger()))
+    k: int
+    lot_size: int

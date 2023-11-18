@@ -22,7 +22,7 @@ def database_url():
     logging.error("Pleas config your Database!")
 
 
-async def write_df_to_db(table: str, df: pl.DataFrame) -> None:
+async def write_df(table: str, df: pl.DataFrame) -> None:
     """
     Parameters
     ---------
@@ -41,7 +41,7 @@ async def write_df_to_db(table: str, df: pl.DataFrame) -> None:
     await conn.close()
 
 
-async def write_records_to_db(
+async def write_records(
     table: str, records: List[list[any]], columns: List[str]
 ) -> None:
     """
