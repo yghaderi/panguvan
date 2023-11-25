@@ -113,6 +113,7 @@ class UpdateISE:
         check_update_date = _handle_update_date(table)
         date = self.tsetmc.last_market_activity_datetime()
         stocks_list = _get_stocks()
+        ins_id_list = [i["ins_id"] for i in stocks_list]
         if not check_update_date:
             for stock in stocks_list:
                 df = self.tsetmc.hist_price(ins_code=stock["ins_code"])
@@ -127,7 +128,7 @@ class UpdateISE:
             df = self.tsetmc.mw("stock").filter(
                 (pl.col("ob_level") == 1)
                 & (pl.col("volume") > 0)
-                & (pl.col("ins_id").str.ends_with("1"))
+                & (pl.col("ins_id").is_in(ins_id_list))
             )
             df = df.with_columns(pl.lit(date).alias("date")).select(cols)
             loop.run_until_complete(write_df(table=table, df=df))

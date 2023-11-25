@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="03043349-8c55-4ba4-bc54-7d078851f138" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/panguvan/data/tsetmc.py" beforeDir="false" afterPath="$PROJECT_DIR$/panguvan/data/ise.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/panguvan/models/ise.py" beforeDir="false" afterPath="$PROJECT_DIR$/panguvan/models/ise.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
