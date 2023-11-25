@@ -26,4 +26,3 @@ def write_date_table(
     """
     df = df_date(start=start, end=end)
     loop.run_until_complete(write_df(table="date", df=df))
-    loop.close()

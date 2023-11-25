@@ -31,12 +31,11 @@ def write_trbc_tables(trbc_hdf_path: str) -> None:
     ]
     for i in items:
         df = pl.from_pandas(pd.read_hdf(trbc_hdf_path, key=i))
-        loop.run_until_complete(write_df(table=f"tsetmc_{i}", df=df))
-        loop.close()
+        loop.run_until_complete(write_df(table=f"ise_{i}", df=df))
 
 
 def write_market_table(
-    id: Tuple[int] = (1, 2, 3), name: Tuple[str] = ("tse", "ifb", "ifb-otc")
+        id: Tuple[int] = (1, 2, 3), name: Tuple[str] = ("tse", "ifb", "ifb-otc")
 ) -> None:
     """
     .. raw:: html
@@ -58,21 +57,20 @@ def write_market_table(
             "name": name,
         }
     )
-    loop.run_until_complete(write_df(table=f"tsetmc_market", df=df))
-    loop.close()
+    loop.run_until_complete(write_df(table=f"ise_market", df=df))
 
 
 def _get_max_date(table: str):
     query = f"SELECT  MAX(date) as max FROM {table}"
     result = loop.run_until_complete(fetch(query))
-    loop.close()
+
     return result[0]["max"]
 
 
 def _get_stocks():
-    query = f"SELECT ins_id, ind_code FROM tsetmc_stock"
+    query = f"SELECT ins_id, ind_code FROM ise_stock"
     result = loop.run_until_complete(fetch(query))
-    loop.close()
+
     return result
 
 
@@ -123,7 +121,7 @@ class UpdateISE:
                     .select(cols)
                 )
                 loop.run_until_complete(write_df(table=table, df=df))
-                loop.close()
+
         elif check_update_date:
             df = self.tsetmc.mw("stock").filter(
                 (pl.col("ob_level") == 1)
@@ -132,7 +130,6 @@ class UpdateISE:
             )
             df = df.with_columns(pl.lit(date).alias("date")).select(cols)
             loop.run_until_complete(write_df(table=table, df=df))
-            loop.close()
 
     def specific_option_data(self):
         """
@@ -165,4 +162,3 @@ class UpdateISE:
         ).select(sod_cols)
         df = omw.join(specific_option_data, on="ins_id", how="inner")
         loop.run_until_complete(write_df(table=table, df=df))
-        loop.close()
