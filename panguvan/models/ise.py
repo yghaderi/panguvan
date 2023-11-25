@@ -1,5 +1,5 @@
 import datetime
-from sqlmodel import SQLModel, Field, UniqueConstraint, Column, BigInteger
+from sqlmodel import SQLModel, Field, UniqueConstraint, Column, BigInteger, ForeignKey
 
 
 class Date(SQLModel, table=True):
@@ -72,7 +72,7 @@ class Stocks(SQLModel, table=True):
     name_en: str
 
     activity_id: int = Field(
-        sa_column=Column(BigInteger(), foreign_key="ise_activity.id")
+        sa_column=Column(BigInteger(), ForeignKey(Activity.id))
     )
     market_id: int = Field(foreign_key="ise_market.id")
 
