@@ -7,7 +7,7 @@ from sqlmodel import SQLModel, Field, UniqueConstraint
 class Currency(SQLModel, table=True):
     __tablename__ = "tgju_currency"
     __table_args__ = (
-        UniqueConstraint("date", "ins_id", name="tgju_currency_unique_date_symbol"),
+        UniqueConstraint("date", "symbol", name="tgju_currency_unique_date_symbol"),
     )
 
     id: Optional[int] = Field(default=None, primary_key=True)
@@ -22,7 +22,7 @@ class Currency(SQLModel, table=True):
 class Gold(SQLModel, table=True):
     __tablename__ = "tgju_gold"
     __table_args__ = (
-        UniqueConstraint("date", "ins_id", name="tgju_gold_unique_date_symbol"),
+        UniqueConstraint("date", "symbol", name="tgju_gold_unique_date_symbol"),
     )
 
     id: Optional[int] = Field(default=None, primary_key=True)

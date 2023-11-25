@@ -1,7 +1,5 @@
 import datetime
-from typing import Optional
-from sqlalchemy import Column, BigInteger
-from sqlmodel import SQLModel, Field, UniqueConstraint
+from sqlmodel import SQLModel, Field, UniqueConstraint, Column, BigInteger
 
 
 class Date(SQLModel, table=True):
@@ -67,14 +65,14 @@ class Stocks(SQLModel, table=True):
     __tablename__ = "ise_stocks"
 
     ins_id: str = Field(primary_key=True)
-    ins_code: int = Field(sa_column=Column(BigInteger()))
+    ins_code: str = Field(unique=True)
     symbol: str = Field(unique=True)
     name: str
     symbol_en: str
     name_en: str
 
     activity_id: int = Field(
-        sa_column=Column(BigInteger()), foreign_key="ise_activity.id"
+        sa_column=Column(BigInteger(), foreign_key="ise_activity.id")
     )
     market_id: int = Field(foreign_key="ise_market.id")
 
@@ -87,7 +85,7 @@ class StockDailyHistTrade(SQLModel, table=True):
         ),
     )
 
-    id: int = Field(default=None, primary_key=True)
+    id: int = Field(primary_key=True)
     date: datetime.date = Field(foreign_key="date.date")
     ins_id: str = Field(foreign_key="ise_stocks.ins_id")
     open: int
@@ -95,7 +93,7 @@ class StockDailyHistTrade(SQLModel, table=True):
     low: int
     close: int
     final: int
-    y_final: Optional[int] = Field(default=None)
+    y_final: int
     volume: int = Field(sa_column=Column(BigInteger()))
     value: int = Field(sa_column=Column(BigInteger()))
     trade_count: int = Field(sa_column=Column(BigInteger()))
@@ -109,7 +107,7 @@ class StockDailyAdjHistTrade(SQLModel, table=True):
         ),
     )
 
-    id: int = Field(default=None, primary_key=True)
+    id: int = Field(primary_key=True)
     date: datetime.date = Field(foreign_key="date.date")
     ins_id: str = Field(foreign_key="ise_stocks.ins_id")
     open: int
@@ -125,7 +123,7 @@ class StockDailyAdjHistTrade(SQLModel, table=True):
 class Options(SQLModel, table=True):
     __tablename__ = "ise_options"
 
-    id: int = Field(default=None, primary_key=True)
+    id: int = Field(primary_key=True)
     ins_id: str = Field(unique=True)
     ins_code: str = Field(unique=True)
     ua_ins_code: str
@@ -143,7 +141,7 @@ class OptionDailyHistTrade(SQLModel, table=True):
             "date", "ins_id", name="ise_option_daily_hist_trade_unique_date_ins_id"
         ),
     )
-    id: int = Field(default=None, primary_key=True)
+    id: int = Field(primary_key=True)
     date: datetime.date = Field(foreign_key="date.date")
     ins_id: str = Field(foreign_key="ise_options.ins_id")
     open: int
