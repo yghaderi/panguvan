@@ -1,14 +1,13 @@
 import asyncio
 from typing import Tuple
 import polars as pl
-import pandas as pd
 from oxtapus import TSETMC
 from panguvan.db import write_df, fetch
 
 loop = asyncio.get_event_loop()
 
 
-def write_trbc_tables(trbc_hdf_path: str) -> None:
+def write_trbc_tables(filepath: str) -> None:
     """
     .. raw:: html
 
@@ -18,7 +17,7 @@ def write_trbc_tables(trbc_hdf_path: str) -> None:
 
     Parameters
     ---------
-    trbc_hdf_path: str
+    filepath: str
         TRBC.h5 . You can download this file `here`_.
         .. _here: https://github.com/yghaderi/panguvan/blob/master/TRBC.h5
     """
@@ -30,7 +29,7 @@ def write_trbc_tables(trbc_hdf_path: str) -> None:
         "activity",
     ]
     for i in items:
-        df = pl.from_pandas(pd.read_hdf(trbc_hdf_path, key=i))
+        df = pl.read_excel(filepath,  sheet_name=i)
         loop.run_until_complete(write_df(table=f"ise_{i}", df=df))
 
 
