@@ -67,7 +67,7 @@ def _get_max_date(table: str):
 
 
 def _get_stocks():
-    query = f"SELECT ins_id, ind_code FROM ise_stock"
+    query = f"SELECT ins_id, ins_code FROM ise_stocks"
     result = loop.run_until_complete(fetch(query))
 
     return result
