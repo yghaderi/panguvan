@@ -1,4 +1,5 @@
 import datetime
+from decimal import Decimal
 from sqlmodel import SQLModel, Field, UniqueConstraint, Column, BigInteger, ForeignKey
 
 
@@ -156,3 +157,22 @@ class OptionDailyHistTrade(SQLModel, table=True):
     k: int
     t: int
     lot_size: int
+
+
+class ShareholderList(SQLModel, table=True):
+    __tablename__ = "ise_stock_shareholder_list"
+    __table_args__ = (
+        UniqueConstraint(
+            "date", "ins_id", name="ise_shareholder_list_unique_date_ins_id"
+        ),
+    )
+
+    id: int = Field(primary_key=True)
+    date: datetime.date = Field(foreign_key="date.date")
+    ins_id: str = Field(foreign_key="ise_stocks.ins_id")
+    sh_name: str
+    shares: Decimal
+    pct_shares: float
+    change: Decimal
+    change_amount: Decimal
+
