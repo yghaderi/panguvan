@@ -161,11 +161,6 @@ class OptionDailyHistTrade(SQLModel, table=True):
 
 class ShareholderList(SQLModel, table=True):
     __tablename__ = "ise_stock_shareholder_list"
-    __table_args__ = (
-        UniqueConstraint(
-            "date", "ins_id", name="ise_shareholder_list_unique_date_ins_id"
-        ),
-    )
 
     id: int = Field(primary_key=True)
     date: datetime.date = Field(foreign_key="date.date")
