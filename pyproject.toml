@@ -1,0 +1,4 @@
+[tool.pyright]
+root = "valpy"
+venvPath = "."
+venv = ".venv"
