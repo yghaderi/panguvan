@@ -7,7 +7,7 @@ from oxtapus import TGJU
 from iceberg.db import async_session
 from igloo.tgju import Instrument, HistPrice
 
-tgju_ = TGJU()
+tgju = TGJU()
 
 async def get_last_date(symbol:str):
     async with async_session() as session:
@@ -35,33 +35,23 @@ async def add_instrument():
         async with session.begin():
             records = [
                 Instrument(
-                id="USDIRR", name="دلار", category="currency"
+                id="USD/IRR", name="دلار", category="currency"
             ),
             Instrument(
-            id="EMAMI", name="سکه‌یِ امامی", category="gold"
+            id="EMAMI", name="سکه‌یِ امامی", category="sekke"
         ),
-        Instrument(
-        id="XAUUSD", name="انسِ طلا", category="gold"
-    ),
             ]
             session.add_all(records)
             await session.commit()
 
 @asset
 async def update_usd_irr():
-    df = tgju_.usd_irr()
-    df = df.drop("jdate").with_columns(symbol = pl.lit("USDIRR"))
+    df = tgju.usd_irr()
+    df = df.drop("jdate").with_columns(symbol = pl.lit("USD/IRR"))
     await insert_df(df)
 
 @asset
 async def update_sekke_emami():
-    df = tgju_.sekke_emami()
+    df = tgju.sekke_emami()
     df = df.drop("jdate").with_columns(symbol = pl.lit("EMAMI"))
-    await insert_df(df)
-
-
-@asset
-async def update_ons():
-    df = tgju_.ons()
-    df = df.drop("jdate").with_columns(symbol = pl.lit("XAUUSD"))
     await insert_df(df)
